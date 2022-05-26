@@ -8,6 +8,8 @@ namespace Hunter.API.Data
         {
 
         }
+        public string Title { get; set; }
+        public string Description { get; set; }
         public string Designer { get; set; }
         public string Runner { get; set; }
 

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hunter.API.Data;
+using AutoMapper;
+using Hunter.API.DTOs;
 
 namespace Hunter.API.Controllers
 {
@@ -14,44 +16,57 @@ namespace Hunter.API.Controllers
     public class CompaniesController : ControllerBase
     {
         private readonly HunterDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CompaniesController(HunterDbContext context)
+        public CompaniesController(HunterDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/Companies
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Company>>> GetCompanys()
+        public async Task<ActionResult<IEnumerable<GetCompanyDto>>> GetCompanys()
         {
-            return await _context.Companys.ToListAsync();
+            var countries = await _context.Companys.ToListAsync();
+            var records = _mapper.Map<List<GetCompanyDto>>(countries);
+            return Ok(records);
         }
 
         // GET: api/Companies/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Company>> GetCompany(int id)
+        public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
-            var company = await _context.Companys.FindAsync(id);
+            var company = await _context.Companys.Include(p => p.Projects).FirstOrDefaultAsync(q => q.Id == id);
 
             if (company == null)
             {
                 return NotFound();
             }
 
-            return company;
+            var companyDto = _mapper.Map<CompanyDto>(company);
+
+            return companyDto;
         }
 
         // PUT: api/Companies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompany(int id, Company company)
+        public async Task<IActionResult> PutCompany(int id, UpdateCompanyDto updateCompanyDto)
         {
-            if (id != company.Id)
+            if (id != updateCompanyDto.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(company).State = EntityState.Modified;
+            //_context.Entry(company).State = EntityState.Modified;
+            var company = await _context.Companys.FindAsync(id);
+            if (company == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(updateCompanyDto, company);
 
             try
             {
@@ -75,8 +90,10 @@ namespace Hunter.API.Controllers
         // POST: api/Companies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Company>> PostCompany(Company company)
+        public async Task<ActionResult<Company>> PostCompany(CreateCompanyDto createCompanyDto)
         {
+            var company = _mapper.Map<Company>(createCompanyDto);
+
             _context.Companys.Add(company);
             await _context.SaveChangesAsync();
 
