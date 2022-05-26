@@ -1,0 +1,24 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Hunter.API.Data
+{
+    public class Project : EntityBase
+    {
+        public Project()
+        {
+
+        }
+        public string Designer { get; set; }
+        public string Runner { get; set; }
+
+
+        // one company with many projects
+        [ForeignKey(nameof(Company))]
+        public int CompanyId { get; set; }
+        public virtual Company Company { get; set; }
+
+        // ONE project can have MANY ghosts
+        public virtual IList<Ghost> Ghosts { get; set; }
+
+    }
+}
