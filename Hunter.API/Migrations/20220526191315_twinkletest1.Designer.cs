@@ -4,6 +4,7 @@ using Hunter.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hunter.API.Migrations
 {
     [DbContext(typeof(HunterDbContext))]
-    partial class HunterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220526191315_twinkletest1")]
+    partial class twinkletest1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,7 +90,7 @@ namespace Hunter.API.Migrations
                     b.Property<int>("Era")
                         .HasColumnType("int");
 
-                    b.Property<int>("PopulationId")
+                    b.Property<int?>("PopulationId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
@@ -111,7 +113,6 @@ namespace Hunter.API.Migrations
                         {
                             Id = 1,
                             Era = 0,
-                            PopulationId = 0,
                             ProjectId = 1,
                             initialEra = "",
                             isActive = true

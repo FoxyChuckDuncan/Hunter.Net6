@@ -19,6 +19,7 @@ namespace Hunter.API.Data
         public int CompanyId { get; set; }
         public virtual Company Company { get; set; }
 
+
         // ONE project can have MANY ghosts
         public virtual IList<Ghost> Ghosts { get; set; }
 

@@ -4,6 +4,7 @@ using Hunter.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hunter.API.Migrations
 {
     [DbContext(typeof(HunterDbContext))]
-    partial class HunterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220526200445_dummytestX")]
+    partial class dummytestX
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,9 +90,6 @@ namespace Hunter.API.Migrations
                     b.Property<int>("Era")
                         .HasColumnType("int");
 
-                    b.Property<int>("PopulationId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
@@ -111,7 +110,6 @@ namespace Hunter.API.Migrations
                         {
                             Id = 1,
                             Era = 0,
-                            PopulationId = 0,
                             ProjectId = 1,
                             initialEra = "",
                             isActive = true
@@ -158,9 +156,7 @@ namespace Hunter.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GhostId")
-                        .IsUnique()
-                        .HasFilter("[GhostId] IS NOT NULL");
+                    b.HasIndex("GhostId");
 
                     b.ToTable("Populations");
 
@@ -244,8 +240,8 @@ namespace Hunter.API.Migrations
             modelBuilder.Entity("Hunter.API.Data.Population", b =>
                 {
                     b.HasOne("Hunter.API.Data.Ghost", "Ghost")
-                        .WithOne("Population")
-                        .HasForeignKey("Hunter.API.Data.Population", "GhostId");
+                        .WithMany()
+                        .HasForeignKey("GhostId");
 
                     b.Navigation("Ghost");
                 });
@@ -264,11 +260,6 @@ namespace Hunter.API.Migrations
             modelBuilder.Entity("Hunter.API.Data.Company", b =>
                 {
                     b.Navigation("Projects");
-                });
-
-            modelBuilder.Entity("Hunter.API.Data.Ghost", b =>
-                {
-                    b.Navigation("Population");
                 });
 
             modelBuilder.Entity("Hunter.API.Data.Individual", b =>

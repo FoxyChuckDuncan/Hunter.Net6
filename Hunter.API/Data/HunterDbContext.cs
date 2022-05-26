@@ -18,11 +18,11 @@ namespace Hunter.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelbuilder )
         {
-            // base.OnModelCreating(modelbuilder);
+            //     // base.OnModelCreating(modelbuilder);
 
-            modelbuilder.Entity<Company>()
-                .HasMany<Project>(p => p.Projects);
-       //         .OnDelete(DeleteBehavior.Cascade);
+            //     modelbuilder.Entity<Company>()
+            //         .HasMany<Project>(p => p.Projects);
+            ////         .OnDelete(DeleteBehavior.Cascade);
 
             modelbuilder.Entity<Project>()
                 .HasOne<Company>(c => c.Company).WithMany(p => p.Projects)
@@ -32,19 +32,19 @@ namespace Hunter.API.Data
                 .HasOne<Project>(p => p.Project).WithMany(g => g.Ghosts)
                 .HasForeignKey(g => g.ProjectId);
 
-            modelbuilder.Entity<Ghost>()
-                .HasOne<Population>(p => p.Population).WithOne(g => g.Ghost);
+            //     modelbuilder.Entity<Ghost>()
+            //         .HasOne<Population>(p => p.Population).WithOne(g => g.Ghost);
 
-            modelbuilder.Entity<Population>()
-                .HasMany<Individual>(i => i.Individuals).WithOne(p => p.Population);
+            //     modelbuilder.Entity<Population>()
+            //         .HasMany<Individual>(i => i.Individuals).WithOne(p => p.Population);
 
-            modelbuilder.Entity<Individual>()
-                .HasMany<Feature>(f => f.Features).WithOne(i => i.Individual);
+            //     modelbuilder.Entity<Individual>()
+            //         .HasMany<Feature>(f => f.Features).WithOne(i => i.Individual);
 
-            modelbuilder.Entity<Feature>()
-                .HasOne<Individual>(i => i.Individual);
+            //     modelbuilder.Entity<Feature>()
+            //         .HasOne<Individual>(i => i.Individual);
 
-            ///////////////////////////////////////////////////////////////
+            //     ///////////////////////////////////////////////////////////////
 
             modelbuilder.Entity<Company>()
                 .HasData(
@@ -64,6 +64,7 @@ namespace Hunter.API.Data
                     Designer = "Chuck Duncan",
                     Runner = "Buttons Duncan",
                     CompanyId = 1,
+                    Title = "Sample Project"
                 }
             );
             modelbuilder.Entity<Ghost>().HasData(

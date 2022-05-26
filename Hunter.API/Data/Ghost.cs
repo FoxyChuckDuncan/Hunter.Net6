@@ -18,9 +18,9 @@ namespace Hunter.API.Data
         public int ProjectId { get; set; }
         public virtual Project Project { get; set; }
 
-        // ONE Ghost MAY have Zero or ONE Population
-        [ForeignKey(nameof(PopulationId))]
-        public int? PopulationId { get; set; }
+
+        // ONE GHOST can have ONE Population
+        public int PopulationId { get; set; }
         public virtual Population Population { get; set; }
     }
 }
