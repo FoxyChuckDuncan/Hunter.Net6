@@ -4,7 +4,7 @@
 
 namespace Hunter.API.Migrations
 {
-    public partial class doubleModel : Migration
+    public partial class InitialTest009 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

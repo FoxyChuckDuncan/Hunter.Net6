@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hunter.API.Migrations
 {
     [DbContext(typeof(HunterDbContext))]
-    [Migration("20220526205506_doubleModel")]
-    partial class doubleModel
+    [Migration("20220527141430_InitialTest5")]
+    partial class InitialTest5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,7 @@ namespace Hunter.API.Migrations
 
                     b.HasIndex("IndividualId");
 
-                    b.ToTable("Features");
+                    b.ToTable("Feature");
 
                     b.HasData(
                         new
@@ -106,7 +106,7 @@ namespace Hunter.API.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Ghosts");
+                    b.ToTable("Ghost");
 
                     b.HasData(
                         new
@@ -135,7 +135,7 @@ namespace Hunter.API.Migrations
 
                     b.HasIndex("PopulationId");
 
-                    b.ToTable("Individuals");
+                    b.ToTable("Individual");
 
                     b.HasData(
                         new
@@ -164,7 +164,7 @@ namespace Hunter.API.Migrations
                         .IsUnique()
                         .HasFilter("[GhostId] IS NOT NULL");
 
-                    b.ToTable("Populations");
+                    b.ToTable("Population");
 
                     b.HasData(
                         new
@@ -191,6 +191,9 @@ namespace Hunter.API.Migrations
                     b.Property<string>("Designer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectGhostId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Runner")
                         .HasColumnType("nvarchar(max)");
 
@@ -209,6 +212,7 @@ namespace Hunter.API.Migrations
                             Id = 1,
                             CompanyId = 1,
                             Designer = "Chuck Duncan",
+                            ProjectGhostId = 0,
                             Runner = "Buttons Duncan",
                             Title = "Sample Project"
                         });

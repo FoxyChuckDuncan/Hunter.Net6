@@ -6,8 +6,10 @@ namespace Hunter.API.Data
     {
         public Project()
         {
-
+            ProjectGhostId = Id;
         }
+
+        public int ProjectGhostId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string Designer { get; set; }

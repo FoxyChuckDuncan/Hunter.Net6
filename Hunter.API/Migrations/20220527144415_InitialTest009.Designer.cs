@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hunter.API.Migrations
 {
     [DbContext(typeof(HunterDbContext))]
-    [Migration("20220526191315_twinkletest1")]
-    partial class twinkletest1
+    [Migration("20220527144415_InitialTest009")]
+    partial class InitialTest009
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,7 @@ namespace Hunter.API.Migrations
 
                     b.HasIndex("IndividualId");
 
-                    b.ToTable("Features");
+                    b.ToTable("Feature");
 
                     b.HasData(
                         new
@@ -90,7 +90,7 @@ namespace Hunter.API.Migrations
                     b.Property<int>("Era")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PopulationId")
+                    b.Property<int>("PopulationId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
@@ -106,13 +106,14 @@ namespace Hunter.API.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Ghosts");
+                    b.ToTable("Ghost");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Era = 0,
+                            PopulationId = 1,
                             ProjectId = 1,
                             initialEra = "",
                             isActive = true
@@ -163,7 +164,7 @@ namespace Hunter.API.Migrations
                         .IsUnique()
                         .HasFilter("[GhostId] IS NOT NULL");
 
-                    b.ToTable("Populations");
+                    b.ToTable("Population");
 
                     b.HasData(
                         new
@@ -190,6 +191,9 @@ namespace Hunter.API.Migrations
                     b.Property<string>("Designer")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectGhostId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Runner")
                         .HasColumnType("nvarchar(max)");
 
@@ -208,6 +212,7 @@ namespace Hunter.API.Migrations
                             Id = 1,
                             CompanyId = 1,
                             Designer = "Chuck Duncan",
+                            ProjectGhostId = 0,
                             Runner = "Buttons Duncan",
                             Title = "Sample Project"
                         });

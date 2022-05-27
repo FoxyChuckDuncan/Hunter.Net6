@@ -14,7 +14,7 @@ namespace Hunter.API.Data
 
 
         // ONE project can have MANY ghosts
-        [ForeignKey(nameof(Project))]
+        [ForeignKey("ProjectGhostId")]
         public int ProjectId { get; set; }
         public virtual Project Project { get; set; }
 

@@ -12,7 +12,7 @@ namespace Hunter.API.Data
         public DbSet<Company> Companys { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Ghost> Ghosts { get; set; }
-        public DbSet<Population> Populations { get; set; }
+        public DbSet<Population> Population { get; set; }
         public DbSet<Individual> Individuals { get; set; }
         public DbSet<Feature> Features { get; set; }
 
@@ -24,13 +24,13 @@ namespace Hunter.API.Data
             //         .HasMany<Project>(p => p.Projects);
             ////         .OnDelete(DeleteBehavior.Cascade);
 
-            modelbuilder.Entity<Project>()
-                .HasOne<Company>(c => c.Company).WithMany(p => p.Projects)
-                .HasForeignKey(c => c.CompanyId);
+            //modelbuilder.Entity<Project>()
+            //    .HasOne<Company>(c => c.Company).WithMany(p => p.Projects)
+            //    .HasForeignKey(c => c.CompanyId);
 
-            modelbuilder.Entity<Ghost>()
-                .HasOne<Project>(p => p.Project).WithMany(g => g.Ghosts)
-                .HasForeignKey(g => g.ProjectId);
+            //modelbuilder.Entity<Ghost>()
+            //    .HasOne<Project>(p => p.Project).WithMany(g => g.Ghosts)
+            //    .HasForeignKey(g => g.ProjectId);
 
             //     modelbuilder.Entity<Ghost>()
             //         .HasOne<Population>(p => p.Population).WithOne(g => g.Ghost);
@@ -75,6 +75,7 @@ namespace Hunter.API.Data
                     isActive = true,
                     initialEra = "",
                     ProjectId = 1,
+                    PopulationId = 1
                 }
             );
 
@@ -90,6 +91,7 @@ namespace Hunter.API.Data
                 new Individual
                 {
                     Id = 1,
+                    PopulationId= 1,
                 }
             );
 
@@ -97,6 +99,7 @@ namespace Hunter.API.Data
                 new Feature
                 {
                     Id = 1,
+                    IndividualId = 1,
                 }
             );
 

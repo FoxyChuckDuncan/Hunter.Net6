@@ -9,6 +9,9 @@ namespace Hunter.API.Data
                 
         }
         public int Id { get; set; }
+        public double Fitness { get; set; }
+        public int Generations { get; set; }
+        public int PopulationPosition { get; set; }
 #nullable disable
 
         [ForeignKey(nameof(PopulationId))]
@@ -16,7 +19,7 @@ namespace Hunter.API.Data
         public virtual Population Population { get; set; }
 
         // MANY Individuals have MANY Features
-        public virtual IList<Feature> Features { get; set; }
+        //public virtual IList<Feature> Features { get; set; }
 
     }
 }

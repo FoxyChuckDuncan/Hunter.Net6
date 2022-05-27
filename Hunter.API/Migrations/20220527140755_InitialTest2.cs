@@ -4,24 +4,24 @@
 
 namespace Hunter.API.Migrations
 {
-    public partial class dummytestZ : Migration
+    public partial class InitialTest2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_Populations_GhostId",
-                table: "Populations");
+                name: "IX_Population_GhostId",
+                table: "Population");
 
             migrationBuilder.AddColumn<int>(
                 name: "PopulationId",
-                table: "Ghosts",
+                table: "Ghost",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Populations_GhostId",
-                table: "Populations",
+                name: "IX_Population_GhostId",
+                table: "Population",
                 column: "GhostId",
                 unique: true,
                 filter: "[GhostId] IS NOT NULL");
@@ -30,16 +30,16 @@ namespace Hunter.API.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_Populations_GhostId",
-                table: "Populations");
+                name: "IX_Population_GhostId",
+                table: "Population");
 
             migrationBuilder.DropColumn(
                 name: "PopulationId",
-                table: "Ghosts");
+                table: "Ghost");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Populations_GhostId",
-                table: "Populations",
+                name: "IX_Population_GhostId",
+                table: "Population",
                 column: "GhostId");
         }
     }
