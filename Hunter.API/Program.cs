@@ -1,5 +1,6 @@
 using Hunter.API.Configurations;
 using Hunter.API.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<HunterDbContext>(options =>
     options.UseSqlServer(HunterConnectionString);
 });
 
+builder.Services.AddIdentityCore<ApiUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<HunterDbContext>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

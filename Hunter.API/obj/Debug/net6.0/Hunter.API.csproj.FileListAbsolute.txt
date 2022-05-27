@@ -336,3 +336,8 @@ E:\Hunter.NET6\Hunter.API\bin\Debug\net6.0\runtimes\win-arm\lib\net6.0\dotnet-as
 E:\Hunter.NET6\Hunter.API\bin\Debug\net6.0\runtimes\win-arm64\lib\net6.0\dotnet-aspnet-codegenerator-design.exe
 E:\Hunter.NET6\Hunter.API\bin\Debug\net6.0\AutoMapper.dll
 E:\Hunter.NET6\Hunter.API\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\Hunter.Net6\Hunter.API\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+E:\Hunter.Net6\Hunter.API\bin\Debug\net6.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+E:\Hunter.Net6\Hunter.API\bin\Debug\net6.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+E:\Hunter.Net6\Hunter.API\bin\Debug\net6.0\Microsoft.Extensions.Identity.Core.dll
+E:\Hunter.Net6\Hunter.API\bin\Debug\net6.0\Microsoft.Extensions.Identity.Stores.dll

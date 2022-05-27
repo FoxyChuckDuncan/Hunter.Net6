@@ -1,13 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hunter.API.Data.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hunter.API.Data
 {
-    public class HunterDbContext : DbContext
+    public class HunterDbContext : IdentityDbContext<ApiUser>
     {
         public HunterDbContext(DbContextOptions options) : base(options)
         {
 
         }
+        
 
         public DbSet<Company> Companys { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -18,91 +21,14 @@ namespace Hunter.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelbuilder )
         {
-            //     // base.OnModelCreating(modelbuilder);
-
-            //     modelbuilder.Entity<Company>()
-            //         .HasMany<Project>(p => p.Projects);
-            ////         .OnDelete(DeleteBehavior.Cascade);
-
-            //modelbuilder.Entity<Project>()
-            //    .HasOne<Company>(c => c.Company).WithMany(p => p.Projects)
-            //    .HasForeignKey(c => c.CompanyId);
-
-            //modelbuilder.Entity<Ghost>()
-            //    .HasOne<Project>(p => p.Project).WithMany(g => g.Ghosts)
-            //    .HasForeignKey(g => g.ProjectId);
-
-            //     modelbuilder.Entity<Ghost>()
-            //         .HasOne<Population>(p => p.Population).WithOne(g => g.Ghost);
-
-            //     modelbuilder.Entity<Population>()
-            //         .HasMany<Individual>(i => i.Individuals).WithOne(p => p.Population);
-
-            //     modelbuilder.Entity<Individual>()
-            //         .HasMany<Feature>(f => f.Features).WithOne(i => i.Individual);
-
-            //     modelbuilder.Entity<Feature>()
-            //         .HasOne<Individual>(i => i.Individual);
-
-            //     ///////////////////////////////////////////////////////////////
-
-            modelbuilder.Entity<Company>()
-                .HasData(
-                new Company
-                {
-                    Id = 1,
-                    Name = "Solution Hunter Engineering",
-                    Billing = "free unlimited",
-                    Region = "NewEngland"
-                }
-            );
-            modelbuilder.Entity<Project>()
-                .HasData(
-                new Project
-                {
-                    Id = 1,
-                    Designer = "Chuck Duncan",
-                    Runner = "Buttons Duncan",
-                    CompanyId = 1,
-                    Title = "Sample Project"
-                }
-            );
-            modelbuilder.Entity<Ghost>().HasData(
-                new Ghost
-                {
-                    Id = 1,
-                    Era = 0,
-                    isActive = true,
-                    initialEra = "",
-                    ProjectId = 1,
-                    PopulationId = 1
-                }
-            );
-
-            modelbuilder.Entity<Population>().HasData(
-                new Population
-                {
-                    Id = 1,
-                    Evolution = 0,
-                }
-            );
-
-            modelbuilder.Entity<Individual>().HasData(
-                new Individual
-                {
-                    Id = 1,
-                    PopulationId= 1,
-                }
-            );
-
-            modelbuilder.Entity<Feature>().HasData(
-                new Feature
-                {
-                    Id = 1,
-                    IndividualId = 1,
-                }
-            );
-
+            base.OnModelCreating(modelbuilder);
+            modelbuilder.ApplyConfiguration(new RoleConfiguration());
+            modelbuilder.ApplyConfiguration(new CompanyConfiguration());
+            modelbuilder.ApplyConfiguration(new ProjectConfiguration());
+            modelbuilder.ApplyConfiguration(new GhostConfiguration());
+            modelbuilder.ApplyConfiguration(new PopulationConfiguration());
+            modelbuilder.ApplyConfiguration(new IndividualConfiguration());
+            modelbuilder.ApplyConfiguration(new FeatureConfiguration());
         }
 
     }
