@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Hunter.API.Data;
 using Hunter.API.DTOs;
+using Hunter.API.DTOs.Users;
 
 namespace Hunter.API.Configurations
 {
@@ -14,6 +15,8 @@ namespace Hunter.API.Configurations
             CreateMap<Company, UpdateCompanyDto>().ReverseMap();
 
             CreateMap<Project, GetProjectDto>().ReverseMap();
+
+            CreateMap<ApiUserDto, ApiUser>().ReverseMap();
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Hunter.API.Data
         {
             base.OnModelCreating(modelbuilder);
             modelbuilder.ApplyConfiguration(new RoleConfiguration());
+
             modelbuilder.ApplyConfiguration(new CompanyConfiguration());
             modelbuilder.ApplyConfiguration(new ProjectConfiguration());
             modelbuilder.ApplyConfiguration(new GhostConfiguration());

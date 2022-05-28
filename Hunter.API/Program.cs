@@ -1,5 +1,7 @@
 using Hunter.API.Configurations;
+using Hunter.API.Contracts;
 using Hunter.API.Data;
+using Hunter.API.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -34,6 +36,8 @@ builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console()
     .ReadFrom.Configuration(ctx.Configuration));
 
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 
 var app = builder.Build();
 
