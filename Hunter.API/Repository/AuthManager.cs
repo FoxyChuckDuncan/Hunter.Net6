@@ -16,10 +16,26 @@ namespace Hunter.API.Repository
             this._mapper = mapper;
             this._userManager = userManager;
         }
+
+        public async Task<bool> Login(LoginDto loginDto)
+        {
+            bool isValidUser = false;
+
+            try
+            {
+                var user = await _userManager.FindByNameAsync(loginDto.UserName);
+                isValidUser = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+            }
+            catch (Exception)
+            {
+            }
+            return isValidUser;
+        }
+
         public async Task<IEnumerable<IdentityError>> Register(ApiUserDto userDto)
         {
             var user = _mapper.Map<ApiUser>(userDto);
-            user.UserName = userDto.UserId;
+            user.UserName = userDto.UserName;
 
             var result = await _userManager.CreateAsync(user, userDto.Password);
 

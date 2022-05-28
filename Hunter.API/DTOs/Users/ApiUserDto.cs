@@ -2,7 +2,7 @@
 
 namespace Hunter.API.DTOs.Users
 {
-    public class ApiUserDto
+    public class ApiUserDto : LoginDto
     {
         [Required]
         public string FirstName { get; set; }
@@ -14,9 +14,5 @@ namespace Hunter.API.DTOs.Users
         public string PhoneNumber { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
-        public string UserId { get; set; }
-        [Required]
-        public string Password { get; set; }
     }
 }

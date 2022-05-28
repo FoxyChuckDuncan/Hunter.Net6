@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Hunter.API.Data;
 using AutoMapper;
 using Hunter.API.DTOs;
+using Hunter.API.Contracts;
 
 namespace Hunter.API.Controllers
 {
@@ -15,21 +16,21 @@ namespace Hunter.API.Controllers
     [ApiController]
     public class CompaniesController : ControllerBase
     {
-        private readonly HunterDbContext _context;
         private readonly IMapper _mapper;
+        private readonly ICompanyRepository _companyRepository;
 
-        public CompaniesController(HunterDbContext context, IMapper mapper)
+        public CompaniesController(HunterDbContext context, IMapper mapper, ICompanyRepository companyRepository)
         {
-            _context = context;
             _mapper = mapper;
+            this._companyRepository = companyRepository;
         }
 
         // GET: api/Companies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GetCompanyDto>>> GetCompanys()
         {
-            var countries = await _context.Companys.ToListAsync();
-            var records = _mapper.Map<List<GetCompanyDto>>(countries);
+            var companies = await _companyRepository.GetAllAsync();
+            var records = _mapper.Map<List<GetCompanyDto>>(companies);
             return Ok(records);
         }
 
@@ -37,7 +38,9 @@ namespace Hunter.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CompanyDto>> GetCompany(int id)
         {
-            var company = await _context.Companys.Include(p => p.Projects).FirstOrDefaultAsync(q => q.Id == id);
+            var company = await _companyRepository.GetAsync(id);
+  ///////////          //var projects = await _
+            //    .Include(p => p.Projects).FirstOrDefaultAsync(q => q.Id == id);
 
             if (company == null)
             {
@@ -60,7 +63,7 @@ namespace Hunter.API.Controllers
             }
 
             //_context.Entry(company).State = EntityState.Modified;
-            var company = await _context.Companys.FindAsync(id);
+            var company = await _companyRepository.GetAsync(id);
             if (company == null)
             {
                 return NotFound();
@@ -70,11 +73,11 @@ namespace Hunter.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _companyRepository.UpdateAsync(company);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CompanyExists(id))
+                if (! await _companyRepository.Exists(id))
                 {
                     return NotFound();
                 }
@@ -94,8 +97,7 @@ namespace Hunter.API.Controllers
         {
             var company = _mapper.Map<Company>(createCompanyDto);
 
-            _context.Companys.Add(company);
-            await _context.SaveChangesAsync();
+            await _companyRepository.AddAsync(company);
 
             return CreatedAtAction("GetCompany", new { id = company.Id }, company);
         }
@@ -104,21 +106,20 @@ namespace Hunter.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            var company = await _context.Companys.FindAsync(id);
+            var company = await _companyRepository.GetAsync(id);
             if (company == null)
             {
                 return NotFound();
             }
 
-            _context.Companys.Remove(company);
-            await _context.SaveChangesAsync();
+            await _companyRepository.DeleteAsync(id);
 
             return NoContent();
         }
 
-        private bool CompanyExists(int id)
+        private async Task<bool> CompanyExists(int id)
         {
-            return _context.Companys.Any(e => e.Id == id);
+            return await _companyRepository.Exists(id);
         }
     }
 }

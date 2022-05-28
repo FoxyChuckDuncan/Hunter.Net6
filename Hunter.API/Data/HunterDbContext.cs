@@ -11,7 +11,6 @@ namespace Hunter.API.Data
 
         }
         
-
         public DbSet<Company> Companys { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Ghost> Ghosts { get; set; }
