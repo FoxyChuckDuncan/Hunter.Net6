@@ -1,0 +1,1 @@
+PS D:\temp> dir -Recurse *.txt | Get-Content | Measure-Object -Line
