@@ -9,6 +9,7 @@ using Hunter.API.Data;
 using AutoMapper;
 using Hunter.API.DTOs;
 using Hunter.API.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hunter.API.Controllers
 {
@@ -104,6 +105,7 @@ namespace Hunter.API.Controllers
 
         // DELETE: api/Companies/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
             var company = await _companyRepository.GetAsync(id);

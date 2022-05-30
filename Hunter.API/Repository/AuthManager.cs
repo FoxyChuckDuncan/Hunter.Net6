@@ -15,6 +15,7 @@ namespace Hunter.API.Repository
         private readonly IMapper _mapper;
         private readonly UserManager<ApiUser> _userManager;
         private readonly IConfiguration _configuration;
+        private ApiUser _user;
 
         public AuthManager(IMapper mapper, UserManager<ApiUser> userManager, IConfiguration configuration)
         {
@@ -25,17 +26,17 @@ namespace Hunter.API.Repository
 
         public async Task<AuthResponseDto> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByNameAsync(loginDto.UserName);
-            bool isValidUser = await _userManager.CheckPasswordAsync(user, loginDto.Password);
+            var _user = await _userManager.FindByNameAsync(loginDto.UserName);
+            bool isValidUser = await _userManager.CheckPasswordAsync(_user, loginDto.Password);
 
-            if (user is null || isValidUser is false) return null;
+            if (_user is null || isValidUser is false) return null;
 
-            var token = GenerateToken(user);
+            var token = GenerateToken();
 
             return new AuthResponseDto
             {
                 Token = token.Result,
-                UserId = user.Id
+                UserId = _user.Id
             };
         }
 
@@ -44,32 +45,37 @@ namespace Hunter.API.Repository
             var user = _mapper.Map<ApiUser>(userDto);
             user.UserName = userDto.UserName;
 
-            var result = await _userManager.CreateAsync(user, userDto.Password);
+            var result = await _userManager.CreateAsync(_user, userDto.Password);
 
             if (result.Succeeded)
             {
                 IEnumerable<string> selectedRoles = new[] { "USER", "VISITOR" };
-                await _userManager.AddToRolesAsync(user, selectedRoles);
+                await _userManager.AddToRolesAsync(_user, selectedRoles);
             }
             
             return result.Errors;
         }
 
-        private async Task<string> GenerateToken(ApiUser user)
+        public Task<AuthResponseDto> VerifyRefreshToken(AuthResponseDto request)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task<string> GenerateToken()
         {
             var securitykey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]));
 
             var credentials = new SigningCredentials(securitykey,SecurityAlgorithms.HmacSha256);
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userManager.GetRolesAsync(_user);
             var roleClaims = roles.Select(x => new Claim(ClaimTypes.Role, x)).ToList();
-            var userClaims = await _userManager.GetClaimsAsync(user);
+            var userClaims = await _userManager.GetClaimsAsync(_user);
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, _user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Email, _user.Email),
             //  new Claim("LicenseType", "valuegoeshere")
             }
             .Union(userClaims).Union(roleClaims);
