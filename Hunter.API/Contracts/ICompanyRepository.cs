@@ -1,5 +1,4 @@
-﻿using HotelListing.API.Contracts;
-using Hunter.API.Data;
+﻿using Hunter.API.Data;
 
 namespace Hunter.API.Contracts
 {

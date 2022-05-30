@@ -1,4 +1,4 @@
-﻿namespace HotelListing.API.Contracts
+﻿namespace Hunter.API.Contracts
 {
     public interface IGenericRepository<T> where T : class
     {

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using HotelListing.API.Contracts;
 using Hunter.API.Contracts;
 using Hunter.API.Data;
 using Microsoft.EntityFrameworkCore;
