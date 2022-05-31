@@ -104,14 +104,29 @@ namespace Hunter.API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Billing")
+                    b.Property<string>("AccountId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BillingPerson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Method")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("NextChargeOccurs")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Region")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartChargeableSvcs")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -121,9 +136,14 @@ namespace Hunter.API.Migrations
                         new
                         {
                             Id = 1,
-                            Billing = "free unlimited",
+                            AccountId = "DebitCard goes here",
+                            Address = "Accounting Office",
+                            BillingPerson = "Patch",
+                            Method = "Auto Monthly Debit",
                             Name = "Solution Hunter Engineering",
-                            Region = "NewEngland"
+                            NextChargeOccurs = new DateTime(2022, 6, 29, 16, 24, 35, 120, DateTimeKind.Local).AddTicks(3),
+                            Region = "NewEngland",
+                            StartChargeableSvcs = new DateTime(2022, 5, 30, 16, 24, 35, 119, DateTimeKind.Local).AddTicks(9966)
                         });
                 });
 
@@ -339,22 +359,22 @@ namespace Hunter.API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "0b724b9b-bc8b-4a0d-9822-1d6d61715e87",
-                            ConcurrencyStamp = "66106ffd-8b3a-4c25-a1cf-39a9128e2c59",
+                            Id = "8f61f741-8064-40dd-ae04-a399fc7aae3d",
+                            ConcurrencyStamp = "66a2bc64-5a03-4b6f-b1d1-74c6e8e5c538",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "2a4380e3-a37b-4c05-a463-fe191637c717",
-                            ConcurrencyStamp = "b0912c0d-9cef-4697-9621-59ac04deb7da",
+                            Id = "2bd689bd-2e7f-4a56-860e-85d4b07dd488",
+                            ConcurrencyStamp = "3c8f9e98-45fc-4c02-a9de-f8a13d1991b1",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "194ef504-c10b-420a-bc84-31ee04e79d87",
-                            ConcurrencyStamp = "b6e887a8-2d13-4f27-8d81-1ad92426558c",
+                            Id = "d9e3cc48-3c00-425c-8970-7603c24ee06c",
+                            ConcurrencyStamp = "47e22f55-3fe3-4d10-be3f-4cdd9e52946f",
                             Name = "Visitor",
                             NormalizedName = "VISITOR"
                         });
